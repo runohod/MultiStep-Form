@@ -1,4 +1,4 @@
-import { LineRounded } from '@/06_shared/icons';
+// import { LineRounded } from '@/06_shared/icons';
 import styles from './multiForm.module.scss';
 
 interface MultiFormProps { 
