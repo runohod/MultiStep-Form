@@ -1,21 +1,89 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  width: 100%;  
+  min-height: 100vh;      
+  padding-top: 85px;     
+  background: #f1f0fb;
+  box-sizing: border-box;
+}
+
 .formContainer {
   background: #ffffff;
-  border-radius: 15px;
-  padding: 40px;
-  max-width: 600px;
-  margin: 40px auto; // Центрируем форму на экране
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 30px;
+  padding: 36px 48px; 
+  width: 648px;
+  height: 704px;
+  box-shadow: 0 10px 25px #b7b9c1;
 }
 
 .breadCrumbs {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 40px;
+  gap: 12px;
+  margin-bottom: 48px;
+
+  .stepWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9699aa; 
+
+    .circle {
+      width: 33px;
+      height: 33px;
+      border: 1px solid #9699aa;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .stepLabel {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    &.active {
+      color: #022959; 
+      .circle {
+        background-color: #bee3f8; 
+        border-color: #bee3f8;
+        color: #022959;
+      }
+    }
+  }
+
+  .separator {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 40px; 
+    }
+  }
+}
+
+.formHeader {
+    margin-bottom: 35px;
+    h1 {
+        color: #022959;
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+    p {
+        color: #9699aa;
+    }
 }
 
 .formFooter {
   display: flex;
-  justify-content: space-between; // Разносим кнопки по краям
+  justify-content: space-between; 
   margin-top: 40px;
 }
+
+

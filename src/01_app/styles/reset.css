@@ -115,7 +115,7 @@ html {
     Убираем скачок интерфейса по горизонтали
     при появлении / исчезновении скроллбара
    */
-  scrollbar-gutter: stable;
+  /* scrollbar-gutter: stable; */
 }
 
 /**
