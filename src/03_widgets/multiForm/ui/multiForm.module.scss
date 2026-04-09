@@ -1,14 +1,3 @@
-.pageWrapper {
-  display: flex;
-  justify-content: center; 
-  align-items: center;     
-  width: 100%;  
-  min-height: 100vh;      
-  padding-top: 85px;     
-  background: #f1f0fb;
-  box-sizing: border-box;
-}
-
 .formContainer {
   background: #ffffff;
   border-radius: 30px;
@@ -29,18 +18,18 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #9699aa; 
+    color: #A0A3BD; 
 
     .circle {
       width: 33px;
       height: 33px;
-      border: 1px solid #9699aa;
-      border-radius: 50%;
+      border-radius: 20%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       transition: all 0.3s ease;
+      background-color: #D9DBE9; 
     }
 
     .stepLabel {
@@ -52,9 +41,9 @@
     &.active {
       color: #022959; 
       .circle {
-        background-color: #bee3f8; 
-        border-color: #bee3f8;
-        color: #022959;
+        background-color: #4A3AFF; 
+        border: none;
+        color: #ffffff;
       }
     }
   }
@@ -69,7 +58,8 @@
 }
 
 .formHeader {
-    margin-bottom: 35px;
+    padding-bottom: 35px;
+    padding-top: 56px;
     h1 {
         color: #022959;
         font-size: 32px;
@@ -84,6 +74,11 @@
   display: flex;
   justify-content: space-between; 
   margin-top: 40px;
+}
+
+.stepContent {
+  flex: 1; 
+  margin-top: 24px;
 }
 
 
