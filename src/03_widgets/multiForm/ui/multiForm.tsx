@@ -33,7 +33,7 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                         </React.Fragment>
                     ))}
                 </div>
-                <hr/>
+                <div className={styles.divider} />
                 <div className={styles.formHeader}>
                     <h1>{title}</h1>
                     <p>{subTitle}</p>

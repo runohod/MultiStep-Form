@@ -7,23 +7,29 @@
   box-shadow: 0 10px 25px #b7b9c1;
 }
 
+.divider {
+  height: 1px;           
+  background: #e2e3e7;   
+}
+
 .breadCrumbs {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 48px;
+  padding-top: 10px;
+  padding-bottom: 24px;
 
   .stepWrapper {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #A0A3BD; 
+    color: #514F6E; 
 
     .circle {
-      width: 33px;
-      height: 33px;
-      border-radius: 20%;
+      width: 31px;
+      height: 31px;
+      border-radius: 27%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,14 +42,17 @@
       font-size: 14px;
       font-weight: 700;
       text-transform: uppercase;
+      color: #A0A3BD; 
     }
 
     &.active {
-      color: #022959; 
       .circle {
-        background-color: #4A3AFF; 
+        background: linear-gradient(135deg, #8C82FF 20%, #4A3AFF 80%);
         border: none;
         color: #ffffff;
+      }
+      .stepLabel {
+      color: #022959; 
       }
     }
   }
