@@ -17,11 +17,11 @@ export const FormPage = () => {
   const getTitle = (step) => {
     switch (step) {
       case 1:
-        return "our";
+        return "Personal Info";
       case 2:
-        return "two";
+        return "Our services";
       case 3:
-        return "serivces";
+        return "Payment";
       default:
         return "one";
     }
@@ -32,7 +32,7 @@ export const FormPage = () => {
     <MultiForm
       stepNumber={step}
       title={getTitle(step)}
-      subTitle={"title"}
+      subTitle={`Step ${step}/${stepsData.length}`}
       stepsData={stepsData}
     >
       {stepsData.map((item) => {

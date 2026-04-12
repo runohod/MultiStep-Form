@@ -67,15 +67,19 @@
 }
 
 .formHeader {
-    padding-bottom: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 48px;
     padding-top: 56px;
+    font-weight: 600;
     h1 {
-        color: #022959;
+        color: #170F49;
         font-size: 32px;
-        margin-bottom: 8px;
     }
     p {
-        color: #9699aa;
+        color: #6F6C8F;
+        font-weight: 400;
     }
 }
 
@@ -90,4 +94,25 @@
   margin-top: 24px;
 }
 
+.backButton {
+  height: 48px;
+  width: 160px;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  border-color: #FBFBFE;
+  border: 1px solid #E0E0E0;
+  cursor: pointer;
+  font-weight: 600;
+}
 
+.continueButton {
+  height: 48px;
+  width: 160px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8C82FF 20%, #4A3AFF 80%);
+  border: none;
+  color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  cursor: pointer;
+  font-weight: 600;
+}
