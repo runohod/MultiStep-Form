@@ -12,7 +12,7 @@ const stepsData = [
 ];
 
 export const FormPage = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const getTitle = (step) => {
     switch (step) {

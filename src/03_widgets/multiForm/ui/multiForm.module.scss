@@ -3,7 +3,7 @@
   border-radius: 30px;
   padding: 36px 48px; 
   width: 648px;
-  height: 704px;
+  height: 780px;
   box-shadow: 0 10px 25px #b7b9c1;
 }
 
@@ -52,7 +52,7 @@
         color: #ffffff;
       }
       .stepLabel {
-      color: #022959; 
+      color: #4A3AFF; 
       }
     }
   }
@@ -70,7 +70,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding-bottom: 48px;
     padding-top: 56px;
     font-weight: 600;
     h1 {
@@ -86,7 +85,7 @@
 .formFooter {
   display: flex;
   justify-content: space-between; 
-  margin-top: 40px;
+  // margin-top: 40px;
 }
 
 .stepContent {

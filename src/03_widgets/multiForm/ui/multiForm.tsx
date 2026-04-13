@@ -34,17 +34,17 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                     ))}
                 </div>
                 <div className={styles.divider} />
-                <div className={styles.formHeader}>
+                <div className={styles.formHeader}> 
                     <h1>{title}</h1>
                     <p>{subTitle}</p>
                 </div>
                 <div className={styles.stepContent}>
                     {children}
                 </div>
-                <footer className={styles.formFooter}>
+                <div className={styles.formFooter}>
                     <button className={styles.backButton}>Back</button>
                     <button className={styles.continueButton}>Continue</button>
-                </footer>
+                </div>
             </div>
     );
 };
