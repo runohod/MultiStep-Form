@@ -1,0 +1,37 @@
+.formPay {
+  display: flex;
+  gap: 45px;
+  justify-content: space-evenly;
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.formCost {
+  display: flex;
+  gap: 10px;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  color: #A0A3BD;
+}
+
+.money {
+  font-size: 25px;
+  font-weight: 600;
+  color: #070707;
+}
+
+.card {
+  height: 48px;
+  width: 260px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #61de78 20%, #4A3AFF 80%);
+  border: none;
+  color: #ffffff;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  font-weight: 600;
+}
