@@ -8,6 +8,8 @@ interface MultiFormProps {
     subTitle: string;
     children: React.ReactNode;
     stepNumber: number;
+    onNext: () => void;
+    onBack: () => void;
     stepsData: {
         id: number;
         label: string;
@@ -15,13 +17,16 @@ interface MultiFormProps {
     }[];
 }
 
-const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData}) => {
+const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData, onNext, onBack}) => {
     return (
             <div className={styles.formContainer}>
-                <div className={styles.breadCrumbs}>
+                <button className={styles.breadCrumbs} onClick={onBack}>
                     {stepsData.map((step, index) => (
                         <React.Fragment key={step.id}>
-                            <div className={clsx(styles.stepWrapper, {[styles.active]: stepNumber === step.id})}>
+                            <div className={clsx(styles.stepWrapper, {
+                                [styles.active]: stepNumber === step.id,
+                                [styles.completed]: stepNumber > step.id
+                                })}>
                                 <div className={styles.circle}>{step.id}</div>
                                 <span className={styles.stepLabel}>{step.label}</span>
                             </div>
@@ -32,7 +37,7 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                             )}
                         </React.Fragment>
                     ))}
-                </div>
+                </button>
                 <div className={styles.divider} />
                 <div className={styles.formHeader}> 
                     <h1>{title}</h1>
@@ -42,8 +47,8 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                     {children}
                 </div>
                 <div className={styles.formFooter}>
-                    <button className={styles.backButton}>Back</button>
-                    <button className={styles.continueButton}>Continue</button>
+                    <button className={styles.backButton} onClick={onBack}>Back</button>
+                    <button className={styles.continueButton} onClick={onNext}>Continue</button>
                 </div>
             </div>
     );

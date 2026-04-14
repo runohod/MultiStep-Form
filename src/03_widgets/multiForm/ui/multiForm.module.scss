@@ -1,15 +1,15 @@
 .formContainer {
   background: #ffffff;
   border-radius: 30px;
-  padding: 36px 48px; 
+  padding: 36px 48px;
   width: 648px;
   height: 780px;
   box-shadow: 0 10px 25px #b7b9c1;
 }
 
 .divider {
-  height: 1px;           
-  background: #e2e3e7;   
+  height: 1px;
+  background: #e2e3e7;
 }
 
 .breadCrumbs {
@@ -19,12 +19,17 @@
   gap: 12px;
   padding-top: 10px;
   padding-bottom: 24px;
+  cursor: pointer; 
+  border: none;      
+  outline: none;      
+  background: none;  
+  -webkit-tap-highlight-color: transparent;
 
   .stepWrapper {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #514F6E; 
+    color: #514f6e;
 
     .circle {
       width: 31px;
@@ -35,24 +40,34 @@
       justify-content: center;
       font-weight: 700;
       transition: all 0.3s ease;
-      background-color: #D9DBE9; 
+      background-color: #d9dbe9;
     }
 
     .stepLabel {
       font-size: 14px;
       font-weight: 700;
       text-transform: uppercase;
-      color: #A0A3BD; 
+      color: #a0a3bd;
     }
 
     &.active {
       .circle {
-        background: linear-gradient(135deg, #8C82FF 20%, #4A3AFF 80%);
+        background: linear-gradient(135deg, #8c82ff 20%, #4a3aff 80%);
         border: none;
         color: #ffffff;
       }
       .stepLabel {
-      color: #4A3AFF; 
+        color: #4a3aff;
+      }
+    }
+
+    &.completed {
+      .circle {
+        background: linear-gradient(135deg, #6F6C8F 20%, #2e2d3f 80%);
+        color: white;
+      }
+      .stepLabel {
+        color: #170F49;
       }
     }
   }
@@ -61,35 +76,35 @@
     display: flex;
     align-items: center;
     svg {
-      width: 40px; 
+      width: 40px;
     }
   }
 }
 
 .formHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding-top: 56px;
-    font-weight: 600;
-    h1 {
-        color: #170F49;
-        font-size: 32px;
-    }
-    p {
-        color: #6F6C8F;
-        font-weight: 400;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 56px;
+  font-weight: 600;
+  h1 {
+    color: #170f49;
+    font-size: 32px;
+  }
+  p {
+    color: #6f6c8f;
+    font-weight: 400;
+  }
 }
 
 .formFooter {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   // margin-top: 40px;
 }
 
 .stepContent {
-  flex: 1; 
+  flex: 1;
   margin-top: 24px;
 }
 
@@ -97,21 +112,22 @@
   height: 48px;
   width: 160px;
   border-radius: 12px;
-  background-color: #FFFFFF;
-  border-color: #FBFBFE;
-  border: 1px solid #E0E0E0;
+  background-color: #ffffff;
+  border-color: #fbfbfe;
+  border: 1px solid #e0e0e0;
   cursor: pointer;
   font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .continueButton {
   height: 48px;
   width: 160px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #8C82FF 20%, #4A3AFF 80%);
+  background: linear-gradient(135deg, #8c82ff 20%, #4a3aff 80%);
   border: none;
-  color: #FFFFFF;
-  border: 1px solid #E0E0E0;
+  color: #ffffff;
+  border: 1px solid #e0e0e0;
   cursor: pointer;
   font-weight: 600;
 }

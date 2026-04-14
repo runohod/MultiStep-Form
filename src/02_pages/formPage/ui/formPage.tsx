@@ -3,7 +3,7 @@ import MultiForm from "@/03_widgets/multiForm/ui/multiForm";
 import { MultiFormStep1 } from "@/03_widgets/multiForm/ui/multiFormStep-1";
 import { MultiFormStep2 } from "@/03_widgets/multiForm/ui/multiFormStep-2";
 import { MultiFormStep3 } from "@/03_widgets/multiForm/ui/multiFormStep-3";
-import styles from './formPage.module.scss';
+import styles from "./formPage.module.scss";
 
 const stepsData = [
   { id: 1, label: "Personal Info", component: <MultiFormStep1 /> },
@@ -12,7 +12,7 @@ const stepsData = [
 ];
 
 export const FormPage = () => {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const getTitle = (step) => {
     switch (step) {
@@ -27,20 +27,30 @@ export const FormPage = () => {
     }
   };
 
+  const handleNext = () => {
+    if (step < stepsData.length) setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (step > 1) setStep((prev) => prev - 1);
+  };
+
   return (
     <div className={styles.pageWrapper}>
-    <MultiForm
-      stepNumber={step}
-      title={getTitle(step)}
-      subTitle={`Step ${step}/${stepsData.length}`}
-      stepsData={stepsData}
-    >
-      {stepsData.map((item) => {
-        if (step === item.id) {
-          return item.component;
-        }
-      })}
-    </MultiForm>
+      <MultiForm
+        stepNumber={step}
+        title={getTitle(step)}
+        subTitle={`Step ${step}/${stepsData.length}`}
+        stepsData={stepsData}
+        onNext={handleNext}
+        onBack={handleBack}
+      >
+        {stepsData.map((item) => {
+          if (step === item.id) {
+            return item.component;
+          }
+        })}
+      </MultiForm>
     </div>
   );
 };
