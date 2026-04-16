@@ -10,6 +10,7 @@ interface MultiFormProps {
     stepNumber: number;
     onNext: () => void;
     onBack: () => void;
+    onStepClick: (stepId: number) => void;
     stepsData: {
         id: number;
         label: string;
@@ -17,16 +18,16 @@ interface MultiFormProps {
     }[];
 }
 
-const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData, onNext, onBack}) => {
+const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData, onNext, onBack, onStepClick}) => {
     return (
             <div className={styles.formContainer}>
-                <button className={styles.breadCrumbs} onClick={onBack}>
+                <div className={styles.breadCrumbs}>
                     {stepsData.map((step, index) => (
                         <React.Fragment key={step.id}>
                             <div className={clsx(styles.stepWrapper, {
                                 [styles.active]: stepNumber === step.id,
                                 [styles.completed]: stepNumber > step.id
-                                })}>
+                                })} onClick={() => onStepClick(step.id)}>
                                 <div className={styles.circle}>{step.id}</div>
                                 <span className={styles.stepLabel}>{step.label}</span>
                             </div>
@@ -37,7 +38,7 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                             )}
                         </React.Fragment>
                     ))}
-                </button>
+                </div>
                 <div className={styles.divider} />
                 <div className={styles.formHeader}> 
                     <h1>{title}</h1>

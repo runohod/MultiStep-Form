@@ -35,6 +35,10 @@ export const FormPage = () => {
     if (step > 1) setStep((prev) => prev - 1);
   };
 
+  const goToStep = (stepId) => {
+  setStep(stepId);
+  };
+
   return (
     <div className={styles.pageWrapper}>
       <MultiForm
@@ -42,6 +46,7 @@ export const FormPage = () => {
         title={getTitle(step)}
         subTitle={`Step ${step}/${stepsData.length}`}
         stepsData={stepsData}
+        onStepClick={goToStep}
         onNext={handleNext}
         onBack={handleBack}
       >
