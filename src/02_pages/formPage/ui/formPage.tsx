@@ -5,14 +5,14 @@ import { MultiFormStep2 } from "@/03_widgets/multiForm/ui/multiFormStep-2";
 import { MultiFormStep3 } from "@/03_widgets/multiForm/ui/multiFormStep-3";
 import styles from "./formPage.module.scss";
 
-const stepsData = [
-  { id: 1, label: "Personal Info", component: <MultiFormStep1 /> },
-  { id: 2, label: "Our services", component: <MultiFormStep2 /> },
-  { id: 3, label: "Payment", component: <MultiFormStep3 /> },
-];
-
 export const FormPage = () => {
   const [step, setStep] = useState(1);
+
+  const stepsData = [
+  { id: 1, label: "Personal Info", component: <MultiFormStep1 onNext={() => setStep(2)}/> },
+  { id: 2, label: "Our services", component: <MultiFormStep2 /> },
+  { id: 3, label: "Payment", component: <MultiFormStep3 /> },
+  ];
 
   const getTitle = (step) => {
     switch (step) {
@@ -41,7 +41,7 @@ export const FormPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <MultiForm
+      <MultiForm 
         stepNumber={step}
         title={getTitle(step)}
         subTitle={`Step ${step}/${stepsData.length}`}

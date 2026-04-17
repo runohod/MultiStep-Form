@@ -18,7 +18,7 @@ interface MultiFormProps {
     }[];
 }
 
-const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData, onNext, onBack, onStepClick}) => {
+const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNumber, stepsData, onBack, onStepClick}) => {
     return (
             <div className={styles.formContainer}>
                 <div className={styles.breadCrumbs}>
@@ -49,7 +49,13 @@ const MultiForm: React.FC<MultiFormProps> = ({ title, subTitle, children, stepNu
                 </div>
                 <div className={styles.formFooter}>
                     <button className={styles.backButton} onClick={onBack}>Back</button>
-                    <button className={styles.continueButton} onClick={onNext}>Continue</button>
+                    <button 
+                        type="submit" 
+                        form="step1-form" 
+                        className={styles.continueButton}
+                    >
+                        Continue
+                    </button>
                 </div>
             </div>
     );
