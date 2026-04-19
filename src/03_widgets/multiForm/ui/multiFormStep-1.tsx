@@ -1,4 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useFormStore } from "@/05_entities/store/useFormStore";
 import styles from "./multiFormStep-1.module.scss";
 
 interface Form {
@@ -12,15 +13,18 @@ interface MultiFormStep1Props {
 }
 
 function MultiFormStep1({ onNext }: MultiFormStep1Props) {
+
+  const { formData, setFormData } = useFormStore();
   const { register, handleSubmit, formState } = useForm<Form>({
     mode: "onChange",
+    defaultValues: formData,
   });
 
   const emailError = formState.errors["email"]?.message;
   const passwordError = formState.errors["password"]?.message;
 
   const onSubmit: SubmitHandler<Form> = (data) => {
-    console.log("Все норм, данные валидны:", data);
+    setFormData(data);
     onNext();
   };
 
