@@ -4,6 +4,7 @@ interface FormValues {
     name: string;
     email: string;
     password: string;
+    service: string;
 }
 
 interface FormState {
@@ -16,6 +17,7 @@ export const useFormStore = create<FormState>((set) => ({
     name: '',
     email: '',
     password: '',
+    service: '',
   },
   
   setFormData: (data) =>

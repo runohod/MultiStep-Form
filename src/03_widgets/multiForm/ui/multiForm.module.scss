@@ -5,6 +5,7 @@
   width: 648px;
   height: 780px;
   box-shadow: 0 10px 25px #b7b9c1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .divider {
@@ -130,4 +131,5 @@
   border: 1px solid #e0e0e0;
   cursor: pointer;
   font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
 }

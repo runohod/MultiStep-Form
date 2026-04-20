@@ -1,3 +1,5 @@
+import { useFormStore } from '@/05_entities/store/useFormStore';
+import clsx from 'clsx';
 import { Development } from '@/06_shared/icons';
 import { WebDesign } from '@/06_shared/icons';
 import { Marketing } from '@/06_shared/icons';
@@ -6,40 +8,37 @@ import { Optimization } from '@/06_shared/icons';
 import { Other } from '@/06_shared/icons';
 import styles from './multiFormStep-2.module.scss';
 
+const services = [
+    { id: 'development', label: 'Development', icon: <Development /> },
+    { id: 'design', label: 'Web Design', icon: <WebDesign /> },
+    { id: 'marketing', label: 'Marketing', icon: <Marketing /> },
+    { id: 'brand', label: 'Brand Strategy', icon: <BrandStrategy /> },
+    { id: 'optimization', label: 'Optimization', icon: <Optimization /> },
+    { id: 'other', label: 'Other', icon: <Other /> },
+];
+
 const MultiFormStep2 = () => {
+    const { formData, setFormData } = useFormStore();
+    const handleSelect = (serviceLabel: string) => {
+        setFormData({ service: serviceLabel });
+    };
+
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><Development /></div>
-                <div className={styles.nameItem}>Development</div>
-            </div>
-
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><WebDesign /></div>
-                <div className={styles.nameItem}>Web Design</div>
-            </div>
-
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><Marketing /></div>
-                <div className={styles.nameItem}>Marketing</div>
-            </div>
-
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><BrandStrategy /></div>
-                <div className={styles.nameItem}>Brand Strategy</div>
-            </div>
-
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><Optimization /></div>
-                <div className={styles.nameItem}>Optimization</div>
-            </div>
-
-            <div className={styles.stepItem}>
-                <div className={styles.imgItem}><Other /></div>
-                <div className={styles.nameItem}>Other</div>
-            </div>
+            {services.map((service) => (
+                <div 
+                    key={service.id} 
+                    className={clsx(styles.stepItem, {
+                    [styles.active]: formData.service === service.label
+                    })}
+                    onClick={() => handleSelect(service.label)}
+                >
+                <div className={styles.imgItem}>{service.icon}</div>
+                <div className={styles.nameItem}>{service.label}</div>
+                </div>
+            ))}
         </div>
-    )
+    );
 };
 
 export {MultiFormStep2}
