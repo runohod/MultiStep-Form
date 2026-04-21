@@ -10,6 +10,8 @@ interface FormValues {
 interface FormState {
   formData: FormValues;
   setFormData: (data: Partial<FormValues>) => void;
+  shouldSubmit: boolean;
+  setShouldSubmit: (val: boolean) => void;
 }
 
 export const useFormStore = create<FormState>((set) => ({
@@ -20,6 +22,9 @@ export const useFormStore = create<FormState>((set) => ({
     service: '',
   },
   
+  shouldSubmit: false,
+  setShouldSubmit: (val) => set({ shouldSubmit: val }),     
+
   setFormData: (data) =>
     set((state) => ({
       formData: { 

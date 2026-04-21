@@ -1,4 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 import { useFormStore } from "@/05_entities/store/useFormStore";
 import styles from "./multiFormStep-1.module.scss";
 
@@ -13,12 +14,23 @@ interface MultiFormStep1Props {
 }
 
 function MultiFormStep1({ onNext }: MultiFormStep1Props) {
-
-  const { formData, setFormData } = useFormStore();
+  const { formData, setFormData, shouldSubmit, setShouldSubmit } = useFormStore();
+  
   const { register, handleSubmit, formState } = useForm<Form>({
     mode: "onChange",
     defaultValues: formData,
   });
+
+  useEffect(() => {
+    if (shouldSubmit) {
+      handleSubmit((data) => {
+        setFormData(data);
+        onNext();
+      })();
+
+      setShouldSubmit(false);
+    }
+  }, [shouldSubmit, handleSubmit, onNext, setFormData, setShouldSubmit]);
 
   const emailError = formState.errors["email"]?.message;
   const passwordError = formState.errors["password"]?.message;
@@ -35,21 +47,20 @@ function MultiFormStep1({ onNext }: MultiFormStep1Props) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className={styles.formHolder}>
-        <label htmlFor="username" className={styles.formName}>
-          Имя пользователя
-        </label>
+        <label htmlFor="name" className={styles.formName}>Имя пользователя</label>
         <input
           type="text"
-          id="username"
+          id="name"
           placeholder="name"
           {...register("name", { required: "Обязательно к заполнению" })}
         />
+        {formState.errors.name && (
+          <p className={styles.errorMassage}>{formState.errors.name.message}</p>
+        )}
       </div>
 
       <div className={styles.formHolder}>
-        <label htmlFor="email" className={styles.formName}>
-          Электронная почта
-        </label>
+        <label htmlFor="email" className={styles.formName}>Электронная почта</label>
         <input
           type="email"
           id="email"
@@ -66,9 +77,7 @@ function MultiFormStep1({ onNext }: MultiFormStep1Props) {
       </div>
 
       <div className={styles.formHolder}>
-        <label htmlFor="password" className={styles.formName}>
-          Пароль
-        </label>
+        <label htmlFor="password" className={styles.formName}>Пароль</label>
         <input
           type="password"
           id="password"
