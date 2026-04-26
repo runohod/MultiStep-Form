@@ -108,4 +108,3 @@ const MultiForm: React.FC<MultiFormProps> = ({
 };
 
 export default MultiForm;
-вамвам
