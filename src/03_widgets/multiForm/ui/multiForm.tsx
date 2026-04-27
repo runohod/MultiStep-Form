@@ -1,4 +1,4 @@
-import { useFormStore } from "@/05_entities/store/useFormStore";
+import { useFormStore } from "@/04_features/store/useFormStore";
 import React, { type JSX } from "react";
 import clsx from "clsx";
 import { LineRounded } from "@/06_shared/icons";
@@ -8,10 +8,6 @@ interface MultiFormProps {
   title: string;
   subTitle: string;
   children: React.ReactNode;
-  stepNumber: number;
-  onNext: () => void;
-  onBack: () => void;
-  onStepClick: (stepId: number) => void;
   stepsData: {
     id: number;
     label: string;
@@ -23,34 +19,42 @@ const MultiForm: React.FC<MultiFormProps> = ({
   title,
   subTitle,
   children,
-  stepNumber,
   stepsData,
-  onBack,
-  onNext,
-  onStepClick,
 }) => {
-  const { formData, setShouldSubmit } = useFormStore();
-  const isServiceSelected = formData.service !== "";
+  const currentStep = useFormStore((state) => state.currentStep);
+  const nextStep = useFormStore((state) => state.nextStep);
+  const prevStep = useFormStore((state) => state.prevStep);
+  const goToStep = useFormStore((state) => state.goToStep);
+  const setShouldSubmit = useFormStore((state) => state.setShouldSubmit);
+  const formData = useFormStore((state) => state.formData);
 
-  const isStep1Finished = formData.name && formData.email && formData.password;
-  const isStep2Finished = formData.service !== "";
+  const isServiceSelected = formData.service !== "";
+  const isStep1Finished = !!(
+    formData.name &&
+    formData.email &&
+    formData.password
+  );
+  const isStep2Finished = isServiceSelected;
 
   const handleBreadcrumbClick = (targetStepId: number) => {
-    if (targetStepId === stepNumber) return;
+    if (targetStepId === currentStep) return;
 
-    if (stepNumber === 1 && targetStepId > 1) {
-      setShouldSubmit(true); 
-      return; 
-    }
-
-    if (targetStepId < stepNumber) {
-      onStepClick(targetStepId);
+    if (currentStep === 1 && targetStepId > 1) {
+      setShouldSubmit(true);
       return;
     }
 
-    if (targetStepId === 3 && isStep2Finished) {
-      onStepClick(targetStepId);
+    if (targetStepId < currentStep) {
+      goToStep(targetStepId);
       return;
+    }
+
+    if (targetStepId === 2 && isStep1Finished) {
+      goToStep(targetStepId);
+    }
+
+    if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
+      goToStep(targetStepId);
     }
   };
 
@@ -65,8 +69,8 @@ const MultiForm: React.FC<MultiFormProps> = ({
             <React.Fragment key={step.id}>
               <div
                 className={clsx(styles.stepWrapper, {
-                  [styles.active]: stepNumber === step.id,
-                  [styles.completed]: stepNumber > step.id,
+                  [styles.active]: currentStep === step.id,
+                  [styles.completed]: currentStep > step.id,
                   [styles.locked]: isLocked,
                 })}
                 onClick={() => handleBreadcrumbClick(step.id)}
@@ -90,15 +94,19 @@ const MultiForm: React.FC<MultiFormProps> = ({
       </div>
       <div className={styles.stepContent}>{children}</div>
       <div className={styles.formFooter}>
-        <button className={styles.backButton} onClick={onBack}>
+        <button
+          className={styles.backButton}
+          onClick={prevStep}
+          disabled={currentStep === 1}
+        >
           Back
         </button>
         <button
-          type={stepNumber === 1 ? "submit" : "button"}
-          form={stepNumber === 1 ? "step1-form" : undefined}
+          type={currentStep === 1 ? "submit" : "button"}
+          form={currentStep === 1 ? "step1-form" : undefined}
           className={styles.continueButton}
-          onClick={stepNumber !== 1 ? onNext : undefined}
-          disabled={stepNumber === 2 && !isServiceSelected}
+          onClick={currentStep !== 1 ? nextStep : undefined}
+          disabled={currentStep === 2 && !isServiceSelected}
         >
           Continue
         </button>

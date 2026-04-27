@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
-import { useFormStore } from "@/05_entities/store/useFormStore";
+import { useFormStore } from "@/04_features/store/useFormStore";
 import styles from "./multiFormStep-1.module.scss";
 
 interface Form {
@@ -9,35 +9,34 @@ interface Form {
   password: string;
 }
 
-interface MultiFormStep1Props {
-  onNext: () => void;
-}
+function MultiFormStep1() {
+  const formData = useFormStore((state) => state.formData);
+  const setFormData = useFormStore((state) => state.setFormData);
+  const shouldSubmit = useFormStore((state) => state.shouldSubmit);
+  const setShouldSubmit = useFormStore((state) => state.setShouldSubmit);
+  const nextStep = useFormStore((state) => state.nextStep);
 
-function MultiFormStep1({ onNext }: MultiFormStep1Props) {
-  const { formData, setFormData, shouldSubmit, setShouldSubmit } = useFormStore();
-  
   const { register, handleSubmit, formState } = useForm<Form>({
     mode: "onChange",
-    defaultValues: formData,
+    defaultValues: formData, 
   });
 
   useEffect(() => {
     if (shouldSubmit) {
       handleSubmit((data) => {
         setFormData(data);
-        onNext();
+        nextStep();
       })();
-
       setShouldSubmit(false);
     }
-  }, [shouldSubmit, handleSubmit, onNext, setFormData, setShouldSubmit]);
+  }, [shouldSubmit, handleSubmit, nextStep, setFormData, setShouldSubmit]);
 
   const emailError = formState.errors["email"]?.message;
   const passwordError = formState.errors["password"]?.message;
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     setFormData(data);
-    onNext();
+    nextStep();
   };
 
   return (

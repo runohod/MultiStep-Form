@@ -1,4 +1,4 @@
-import { useFormStore } from '@/05_entities/store/useFormStore';
+import { useFormStore } from '@/04_features/store/useFormStore';
 import clsx from 'clsx';
 import { Development } from '@/06_shared/icons';
 import { WebDesign } from '@/06_shared/icons';
