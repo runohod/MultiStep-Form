@@ -1,8 +1,16 @@
 import { useFormStore } from "@/04_features/store/useFormStore";
-import React, { type JSX } from "react";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
 import { LineRounded } from "@/06_shared/icons";
 import styles from "./multiForm.module.scss";
+
+interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+  service: string;
+}
 
 interface MultiFormProps {
   title: string;
@@ -11,7 +19,7 @@ interface MultiFormProps {
   stepsData: {
     id: number;
     label: string;
-    component: JSX.Element;
+    component: React.ReactNode;
   }[];
 }
 
@@ -21,26 +29,35 @@ const MultiForm: React.FC<MultiFormProps> = ({
   children,
   stepsData,
 }) => {
+  const { watch, handleSubmit } = useFormContext<FormValues>();
+  const formValues = watch();
   const currentStep = useFormStore((state) => state.currentStep);
   const nextStep = useFormStore((state) => state.nextStep);
   const prevStep = useFormStore((state) => state.prevStep);
   const goToStep = useFormStore((state) => state.goToStep);
-  const setShouldSubmit = useFormStore((state) => state.setShouldSubmit);
-  const formData = useFormStore((state) => state.formData);
 
-  const isServiceSelected = formData.service !== "";
   const isStep1Finished = !!(
-    formData.name &&
-    formData.email &&
-    formData.password
+    formValues.name &&
+    formValues.email &&
+    formValues.password
   );
+  const isServiceSelected = !!formValues.service;
+  // const setShouldSubmit = useFormStore((state) => state.setShouldSubmit);
+  // const formData = useFormStore((state) => state.formData);
+
+  // const isServiceSelected = formData.service !== "";
+  // const isStep1Finished = !!(
+  //   formData.name &&
+  //   formData.email &&
+  //   formData.password
+  // );
   const isStep2Finished = isServiceSelected;
 
   const handleBreadcrumbClick = (targetStepId: number) => {
     if (targetStepId === currentStep) return;
 
     if (currentStep === 1 && targetStepId > 1) {
-      setShouldSubmit(true);
+      handleSubmit(() => goToStep(targetStepId))();
       return;
     }
 
@@ -55,6 +72,13 @@ const MultiForm: React.FC<MultiFormProps> = ({
 
     if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
       goToStep(targetStepId);
+    }
+  };
+  const handleContinue = () => {
+    if (currentStep === 1) {
+      handleSubmit(() => nextStep())();
+    } else {
+      nextStep();
     }
   };
 
@@ -102,10 +126,9 @@ const MultiForm: React.FC<MultiFormProps> = ({
           Back
         </button>
         <button
-          type={currentStep === 1 ? "submit" : "button"}
-          form={currentStep === 1 ? "step1-form" : undefined}
+          type="button"
           className={styles.continueButton}
-          onClick={currentStep !== 1 ? nextStep : undefined}
+          onClick={handleContinue}
           disabled={currentStep === 2 && !isServiceSelected}
         >
           Continue
