@@ -29,7 +29,7 @@ const MultiForm: React.FC<MultiFormProps> = ({
   children,
   stepsData,
 }) => {
-  const { watch, handleSubmit } = useFormContext<FormValues>();
+  const { watch, handleSubmit, trigger } = useFormContext<FormValues>();
   const formValues = watch();
   const currentStep = useFormStore((state) => state.currentStep);
   const nextStep = useFormStore((state) => state.nextStep);
@@ -42,43 +42,52 @@ const MultiForm: React.FC<MultiFormProps> = ({
     formValues.password
   );
   const isServiceSelected = !!formValues.service;
-  // const setShouldSubmit = useFormStore((state) => state.setShouldSubmit);
-  // const formData = useFormStore((state) => state.formData);
-
-  // const isServiceSelected = formData.service !== "";
-  // const isStep1Finished = !!(
-  //   formData.name &&
-  //   formData.email &&
-  //   formData.password
-  // );
   const isStep2Finished = isServiceSelected;
 
-  const handleBreadcrumbClick = (targetStepId: number) => {
+  const handleBreadcrumbClick = async (targetStepId: number) => {
     if (targetStepId === currentStep) return;
-
-    if (currentStep === 1 && targetStepId > 1) {
-      handleSubmit(() => goToStep(targetStepId))();
-      return;
-    }
 
     if (targetStepId < currentStep) {
       goToStep(targetStepId);
       return;
     }
 
-    if (targetStepId === 2 && isStep1Finished) {
-      goToStep(targetStepId);
+    let isStepValid = false;
+    if (currentStep === 1) {
+      isStepValid = await trigger(["name", "email", "password"]);
+    } else if (currentStep === 2) {
+      isStepValid = await trigger(["service"]);
     }
 
-    if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
-      goToStep(targetStepId);
+    if (isStepValid) {
+      if (targetStepId === 2 && isStep1Finished) {
+        goToStep(targetStepId);
+      }
+      if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
+        goToStep(targetStepId);
+      }
     }
   };
-  const handleContinue = () => {
+
+  const handleContinue = async () => {
+    let isStepValid = false;
+
     if (currentStep === 1) {
-      handleSubmit(() => nextStep())();
-    } else {
-      nextStep();
+      isStepValid = await trigger(["name", "email", "password"]);
+    } else if (currentStep === 2) {
+      isStepValid = await trigger(["service"]);
+    } else if (currentStep === 3) {
+      isStepValid = true;
+    }
+
+    if (isStepValid) {
+      if (currentStep < stepsData.length) {
+        nextStep();
+      } else {
+        handleSubmit((data) => {
+          console.log("Final Form Data:", data);
+        })();
+      }
     }
   };
 
@@ -119,6 +128,7 @@ const MultiForm: React.FC<MultiFormProps> = ({
       <div className={styles.stepContent}>{children}</div>
       <div className={styles.formFooter}>
         <button
+          type="button"
           className={styles.backButton}
           onClick={prevStep}
           disabled={currentStep === 1}
@@ -129,9 +139,8 @@ const MultiForm: React.FC<MultiFormProps> = ({
           type="button"
           className={styles.continueButton}
           onClick={handleContinue}
-          disabled={currentStep === 2 && !isServiceSelected}
         >
-          Continue
+          {currentStep === stepsData.length ? "Confirm" : "Continue"}
         </button>
       </div>
     </div>

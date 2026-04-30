@@ -1,4 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {multiFormSchema, type FormValues,} from "@/03_widgets/multiForm/model/schema";
 import MultiForm from "@/03_widgets/multiForm/ui/multiForm";
 import { MultiFormStep1 } from "@/03_widgets/multiForm/ui/multiFormStep-1";
 import { MultiFormStep2 } from "@/03_widgets/multiForm/ui/multiFormStep-2";
@@ -8,11 +10,16 @@ import styles from "./formPage.module.scss";
 
 export const FormPage = () => {
   const currentStep = useFormStore((state) => state.currentStep);
-  const formData = useFormStore((state) => state.formData);
 
-  const methods = useForm({
+  const methods = useForm<FormValues>({
+    resolver: zodResolver(multiFormSchema), 
     mode: "onChange",
-    defaultValues: formData,
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      service: "",
+    },
   });
 
   const stepsData = [
