@@ -1,61 +1,36 @@
-import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import { useMultiForm } from "@/03_widgets/multiForm/model/useMultiForm";
 import MultiForm from "@/03_widgets/multiForm/ui/multiForm";
 import { MultiFormStep1 } from "@/03_widgets/multiForm/ui/multiFormStep-1";
 import { MultiFormStep2 } from "@/03_widgets/multiForm/ui/multiFormStep-2";
 import { MultiFormStep3 } from "@/03_widgets/multiForm/ui/multiFormStep-3";
+import { useFormStore } from "@/04_features/store/useFormStore";
 import styles from "./formPage.module.scss";
 
 export const FormPage = () => {
-  const [step, setStep] = useState(1);
+  const currentStep = useFormStore((state) => state.currentStep);
+
+  const methods = useMultiForm();
 
   const stepsData = [
-  { id: 1, label: "Personal Info", component: <MultiFormStep1 onNext={() => setStep(2)}/> },
-  { id: 2, label: "Our services", component: <MultiFormStep2 /> },
-  { id: 3, label: "Payment", component: <MultiFormStep3 /> },
+    { id: 1, label: "Personal Info", component: <MultiFormStep1 /> },
+    { id: 2, label: "Our services", component: <MultiFormStep2 /> },
+    { id: 3, label: "Payment", component: <MultiFormStep3 /> },
   ];
 
-  const getTitle = (step) => {
-    switch (step) {
-      case 1:
-        return "Personal Info";
-      case 2:
-        return "Our services";
-      case 3:
-        return "Payment";
-      default:
-        return "one";
-    }
-  };
-
-  const handleNext = () => {
-    if (step < stepsData.length) setStep((prev) => prev + 1);
-  };
-
-  const handleBack = () => {
-    if (step > 1) setStep((prev) => prev - 1);
-  };
-
-  const goToStep = (stepId) => {
-  setStep(stepId);
-  };
+  const activeStepData = stepsData.find((s) => s.id === currentStep);
 
   return (
     <div className={styles.pageWrapper}>
-      <MultiForm 
-        stepNumber={step}
-        title={getTitle(step)}
-        subTitle={`Step ${step}/${stepsData.length}`}
-        stepsData={stepsData}
-        onStepClick={goToStep}
-        onNext={handleNext}
-        onBack={handleBack}
-      >
-        {stepsData.map((item) => {
-          if (step === item.id) {
-            return item.component;
-          }
-        })}
-      </MultiForm>
+      <FormProvider {...methods}>
+        <MultiForm
+          stepsData={stepsData}
+          title={activeStepData?.label || ""}
+          subTitle={`Step ${currentStep}/${stepsData.length}`}
+        >
+          {activeStepData?.component}
+        </MultiForm>
+      </FormProvider>
     </div>
   );
 };

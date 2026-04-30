@@ -1,4 +1,4 @@
-import { useFormStore } from '@/05_entities/store/useFormStore';
+import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { Development } from '@/06_shared/icons';
 import { WebDesign } from '@/06_shared/icons';
@@ -18,9 +18,10 @@ const services = [
 ];
 
 const MultiFormStep2 = () => {
-    const { formData, setFormData } = useFormStore();
+    const { watch, setValue } = useFormContext();
+    const currentService = watch('service');
     const handleSelect = (serviceLabel: string) => {
-        setFormData({ service: serviceLabel });
+        setValue('service', serviceLabel, { shouldValidate: true });
     };
 
     return (
@@ -29,7 +30,7 @@ const MultiFormStep2 = () => {
                 <div 
                     key={service.id} 
                     className={clsx(styles.stepItem, {
-                    [styles.active]: formData.service === service.label
+                    [styles.active]: currentService === service.label
                     })}
                     onClick={() => handleSelect(service.label)}
                 >
