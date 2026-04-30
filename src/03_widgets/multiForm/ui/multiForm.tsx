@@ -52,44 +52,46 @@ const MultiForm: React.FC<MultiFormProps> = ({
       return;
     }
 
-    let isStepValid = false;
     if (currentStep === 1) {
-      isStepValid = await trigger(["name", "email", "password"]);
-    } else if (currentStep === 2) {
-      isStepValid = await trigger(["service"]);
+      const isValid = await trigger(["name", "email", "password"]);
+      if (!isValid) return;
+    } 
+    
+    if (currentStep === 2) {
+      const isValid = await trigger(["service"]);
+      if (!isValid) return;
     }
 
-    if (isStepValid) {
-      if (targetStepId === 2 && isStep1Finished) {
-        goToStep(targetStepId);
-      }
-      if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
-        goToStep(targetStepId);
-      }
+    if (targetStepId === 2 && isStep1Finished) {
+    goToStep(targetStepId);
+    return;
+    }
+
+    if (targetStepId === 3 && isStep1Finished && isStep2Finished) {
+    goToStep(targetStepId);
     }
   };
 
   const handleContinue = async () => {
-    let isStepValid = false;
+      if (currentStep === 1) {
+        const isValid = await trigger(["name", "email", "password"]);
+        if (!isValid) return;
+      } 
 
-    if (currentStep === 1) {
-      isStepValid = await trigger(["name", "email", "password"]);
-    } else if (currentStep === 2) {
-      isStepValid = await trigger(["service"]);
-    } else if (currentStep === 3) {
-      isStepValid = true;
-    }
+      if (currentStep === 2) {
+        const isValid = await trigger(["service"]);
+        if (!isValid) return;
+      }
 
-    if (isStepValid) {
       if (currentStep < stepsData.length) {
         nextStep();
-      } else {
-        handleSubmit((data) => {
-          console.log("Final Form Data:", data);
-        })();
+        return; 
       }
-    }
-  };
+
+      handleSubmit((data) => {
+        console.log("Final Form Data:", data);
+      })();
+    };
 
   return (
     <div className={styles.formContainer}>
